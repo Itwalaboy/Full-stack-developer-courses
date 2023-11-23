@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Storage</title>
+</head>
+<body>
+    <h1>User Storage</h1>
+
+    <form id="userForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <button type="button" onclick="addUser()">Add User</button>
+    </form>
+
+    <h2>User List</h2>
+    <ul id="userList"></ul>
+
+    <script>
+        // Function to add a new user to localStorage
+        function addUser() {
+            // Get user input
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+
+            // Get existing users from localStorage or initialize an empty array
+            var users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Add the new user to the array
+            users.push({ username: username, email: email });
+
+            // Save the updated user list back to localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Display the updated user list
+            displayUsers();
+        }
+
+        // Function to display the list of users
+        function displayUsers() {
+            var userListElement = document.getElementById('userList');
+            userListElement.innerHTML = '';
+
+            // Get the list of users from localStorage
+            var users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Loop through the users and display them
+            users.forEach(function (user) {
+                var listItem = document.createElement('li');
+                listItem.textContent = 'Username: ' + user.username + ', Email: ' + user.email;
+                userListElement.appendChild(listItem);
+            });
+        }
+
+        // Display existing users on page load
+        displayUsers();
+    </script>
+</body>
+</html>
